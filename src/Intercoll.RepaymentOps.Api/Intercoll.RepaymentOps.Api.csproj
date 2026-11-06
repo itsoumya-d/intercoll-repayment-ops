@@ -5,4 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Update="wwwroot/**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

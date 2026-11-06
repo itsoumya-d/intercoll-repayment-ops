@@ -1,6 +1,10 @@
 using Intercoll.RepaymentOps.Api;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = AppContext.BaseDirectory
+});
 builder.Services.AddSingleton<RepaymentService>();
 var app = builder.Build();
 app.UseDefaultFiles();
