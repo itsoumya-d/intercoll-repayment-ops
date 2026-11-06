@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Intercoll Repayment Operations</title>
+<style>
+  :root{--ink:#0b1f33;--muted:#5b6b7b;--brand:#0a6b5b;--mint:#e8f5f1;--line:#d9e2e8;--warn:#b45309}
+  *{box-sizing:border-box}body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:#f6f9fb}
+  header{background:var(--brand);color:#fff;padding:20px 28px}header h1{margin:0;font-size:21px;letter-spacing:-.02em}header p{margin:4px 0 0;opacity:.85;font-size:13px}
+  main{max-width:1080px;margin:0 auto;padding:24px}section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:18px}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff}
+  .card b{display:block;font-size:19px}.pill{display:inline-block;background:var(--mint);color:var(--brand);border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600}
+  .warn{color:var(--warn)}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+  code{background:#f2f6f8;padding:2px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<header><h1>Intercoll Repayment Operations</h1><p>Fair plans · affordability · breathing space · field visits · audit</p></header>
+<main>
+  <section><h2>Portfolio</h2><div class="grid" id="stats"></div></section>
+  <section><h2>Accounts</h2><table><thead><tr><th>Account</th><th>Balance</th><th>Arrears</th><th>Hardship</th><th>Next action</th></tr></thead><tbody id="rows"></tbody></table></section>
+  <section><h2>Design rules</h2><p>No fees or interest are added. Affordability is capped at 50% of surplus, or 25% for hardship. Breathing space suppresses contact and payments. Every plan and visit emits an audit event.</p></section>
+</main>
+<script>
+fetch('/api/accounts').then(r=>r.json()).then(rows=>{
+  document.getElementById('rows').innerHTML=rows.map(a=>`<tr><td><code>${a.accountId}</code></td><td>$${a.balance.toLocaleString()}</td><td>$${a.arrears.toLocaleString()}</td><td>${a.hardship}</td><td>${a.nextAction}</td></tr>`).join('');
+  const total=rows.reduce((s,a)=>s+a.balance,0), arrears=rows.reduce((s,a)=>s+a.arrears,0);
+  document.getElementById('stats').innerHTML=`<div class="card"><span class="pill">Accounts</span><b>${rows.length}</b></div><div class="card"><span class="pill">Balance</span><b>$${total.toLocaleString()}</b></div><div class="card"><span class="pill">Arrears</span><b class="warn">$${arrears.toLocaleString()}</b></div>`;
+}).catch(()=>{document.getElementById('rows').innerHTML='<tr><td colspan="5">Run the API to load live accounts.</td></tr>'});
+</script>
+</body>
+</html>

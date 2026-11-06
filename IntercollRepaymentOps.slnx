@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Intercoll.RepaymentOps.Api/Intercoll.RepaymentOps.Api.csproj" />
+  <Project Path="tests/Intercoll.RepaymentOps.Tests/Intercoll.RepaymentOps.Tests.csproj" />
+</Solution>
