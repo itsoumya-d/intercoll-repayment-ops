@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Intercoll.RepaymentOps.Api;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     ContentRootPath = AppContext.BaseDirectory
 });
 builder.Services.AddSingleton<RepaymentService>();
+builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
